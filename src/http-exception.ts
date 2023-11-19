@@ -9,6 +9,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
+    console.log('exception');
     
     response
       .status(status)
@@ -44,6 +45,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
     };
+      
+      console.log('exception', exception);
+      
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }

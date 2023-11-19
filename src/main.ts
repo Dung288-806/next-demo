@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter, HttpExceptionFilter } from './http-exception';
@@ -8,9 +9,12 @@ async function bootstrap() {
         console.log('helloe');
         next();
     });
+    const configService = app.get(ConfigService);
     // app.useGlobalFilters(new HttpExceptionFilter()); // handle error for global-scope
     // const { httpAdapter } = app.get(HttpAdapterHost);
     // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
-    await app.listen(3000);
+    console.log(process.env.PORT);
+    
+    await app.listen(configService.get('PORT') || 3000);
 }
 bootstrap();

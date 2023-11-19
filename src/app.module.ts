@@ -8,10 +8,20 @@ import { CatsModule } from './modules/cats.module';
 import { Logger } from './middlewares/logger.middleware';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './http-exception';
+import { ConfigModule } from '@nestjs/config';
+import { validate } from './configs/env.validation';
 
 
 @Module({
-    imports: [CatsModule],
+    imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: '.env',
+            cache: true,
+            validate,
+        }),
+        CatsModule
+    ],
     providers: [
         {
             provide: APP_FILTER,
